@@ -1,0 +1,26 @@
+{
+  "name": "smartshoplk-api",
+  "version": "1.0.0",
+  "description": "Smartshop.lk Web API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hashaaan/smartshoplk-api"
+  },
+  "keywords": [
+    "smartshop",
+    "web-api"
+  ],
+  "author": "smartshop.lk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hashaaan/smartshoplk-api/issues"
+  },
+  "homepage": "https://github.com/hashaaan/smartshoplk-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
