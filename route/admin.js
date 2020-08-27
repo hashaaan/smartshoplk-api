@@ -1,5 +1,6 @@
 const express = require("express");
 const Smartphone = require("../model/smartphone");
+
 const router = express.Router();
 
 
@@ -16,52 +17,59 @@ router.get("/",async(req,res)=>{
 });
 
 router.get("/:id",async(req,res)=>{
-await Smartphone.findById(req.params.id,(err,data)=>{
-    res.json(data);
-})
+// await Smartphone.findById(req.params.id,(err,data)=>{
+//     res.json(data);
 
+    let phone = await Smartphone.findById(req.params.id);
 
-    
-});
-
-router.post("/", async(req,res)=>{
-let phone = Smartphone({
-    name :req.body.name,
-    brand: req.body.brand,
-    modelNo: req.body.modelNo,
-    storage: req.body.storage,
-    color : req.body.color,
-    features: req.body.features,
-    description: req.body.description,
-    rating: req.body.rating,
-    price: req.body.price,
-    currency: req.body.currency,
-    imgURL: req.body.imgURL
-
-
-})
-await phone.save(()=>{
+    if (!phone) {
+      return res
+        .sendStatus(404)
+        .send("The given Id does not exist on our server");
+    }
+  
     res.json(phone)
 })
 
 
+router.post("/", async(req,res)=>{
 
-// User.create(req.body,(error, data) => {
-//     if (error) {
-//       return error
-//     } else {
-//       console.log(data)
-//       res.json(data)
-//     }
-//   })
-
-
-
+try{
+    let phone =await  Smartphone({
+        name :req.body.name,
+        brand: req.body.brand,
+        modelNo: req.body.modelNo,
+        storage: req.body.storage,
+        color : req.body.color,
+        features: req.body.features,
+        description: req.body.description,
+        rating: req.body.rating,
+        price: req.body.price,
+        currency: req.body.currency,
+        imgURL: req.body.imgURL
     
+    
+    })
+     phone.save(()=>{
+        res.json(phone)
+    })
+}catch(e){
+    return res.status(500).send(e.message)
+}
+
+
+console.log("Phone added")
+   
 });
 
 router.delete("/:id", async(req,res)=>{
-    await Smartphone.findByIdAndDelete({_id:req.params.id})
+    let phone= await Smartphone.findByIdAndDelete({_id:req.params.id})
+    res.send(phone)
+    console.log("deleted")
+
+    if (!phone) {
+        return res.status(404).send("The given Id does not exist on our server");
+      }
 
     
 });
@@ -71,7 +79,19 @@ router.put("/:id", async(req,res)=>{
   let phone= await Smartphone.findOneAndUpdate({
         _id: req.params.id
     },
-    {$set:{firstName:req.body.firstName,lastName:req.body.lastName,position:req.body.position},
+    {$set:{
+        name :req.body.name,
+        brand: req.body.brand,
+        modelNo: req.body.modelNo,
+        storage: req.body.storage,
+        color : req.body.color,
+        features: req.body.features,
+        description: req.body.description,
+        rating: req.body.rating,
+        price: req.body.price,
+        currency: req.body.currency,
+        imgURL: req.body.imgURL
+    },
     new: true, useFindAndModify: false}
     )
     res.send(phone)
@@ -80,10 +100,6 @@ router.put("/:id", async(req,res)=>{
 
 
 );
-
-
-
-
 
 module.exports=router;
 
