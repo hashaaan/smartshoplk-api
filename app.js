@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const home = require("./route/home");
 const smartphones = require("./route/smartphones");
-const admin = require("./route/admin/admin");
+const admin = require("./route/admin")
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
 app.use(express.json());
 app.use("/", home);
-app.use("/api/smartphones", smartphones);
-app.use("api/admin",admin )
+//app.use("/api/smartphones", smartphones);
+app.use("/api/admin",admin );
 
 mongoose
   .connect("mongodb://localhost/smartshopdb", {

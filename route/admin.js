@@ -1,5 +1,5 @@
 const express = require("express");
-const Smartphone = require("../../model/smartphone");
+const Smartphone = require("../model/smartphone");
 const router = express.Router();
 
 
@@ -25,14 +25,26 @@ await Smartphone.findById(req.params.id,(err,data)=>{
 });
 
 router.post("/", async(req,res)=>{
-let phone = await Smartphone({
-    firstName :req.body.firstName,
-    lastName: req.body.lastName,
-    position: req.body.position
+let phone = Smartphone({
+    name :req.body.name,
+    brand: req.body.brand,
+    modelNo: req.body.modelNo,
+    storage: req.body.storage,
+    color : req.body.color,
+    features: req.body.features,
+    description: req.body.description,
+    rating: req.body.rating,
+    price: req.body.price,
+    currency: req.body.currency,
+    imgURL: req.body.imgURL
+
+
 })
 await phone.save(()=>{
-    res.json(user)
+    res.json(phone)
 })
+
+
 
 // User.create(req.body,(error, data) => {
 //     if (error) {
