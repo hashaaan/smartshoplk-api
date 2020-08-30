@@ -6,6 +6,7 @@ const home = require("./route/home");
 const smartphones = require("./route/smartphones");
 const users = require("./route/users");
 const admin = require("./route/admin/admin");
+const cart = require("./route/cart");
 const app = express();
 const PORT = 8000;
 
@@ -16,6 +17,7 @@ app.use("/", home);
 app.use("/api/smartphones", smartphones);
 app.use("/api/users", users);
 app.use("/api/admin", admin);
+app.use("/api/cart", cart);
 
 mongoose
   .connect(
