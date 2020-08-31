@@ -68,7 +68,7 @@ router.post("/signin", async (req, res) => {
       });
     } else if (isValidPassword) {
       let token = generateUserToken(user);
-      res.status(200).json({ success: true, token: "JWT " + token });
+      res.status(200).json({ success: true, token: token });
     }
   } catch (err) {
     return res.status(500).json({
@@ -86,7 +86,7 @@ router.get("/", passport.authenticate("jwt", { session: false }), function (
 
 generateUserToken = function (user) {
   var token = jwt.sign(user.toJSON(), config.secret);
-  return "JWT" + token;
+  return "JWT " + token;
 };
 
 module.exports = router;
