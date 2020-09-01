@@ -27,7 +27,7 @@ const smartphoneSchema = new mongoose.Schema({
   currency: String,
   imgUrl: {
     type: String,
-    default: "Placeholder image link to be updated here ... ",
+    default: "https://www.zatista.ie/sitemap/email-images/300x300.jpg",
   },
 });
 
