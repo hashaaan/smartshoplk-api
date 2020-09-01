@@ -4,37 +4,6 @@ const Smartphone = require("../model/smartphone");
 const router = express.Router();
 const passport = require("passport");
 
-
-router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      if(!req.body.smartphoneId){
-        req.status(422).json({message: "Smartphone ID is required"});
-      }
-      if(!req.body.qty){
-        res.status(422).json({message:"Quantity is required"});
-      }
-      let user = req.user;
-      let smartphone = await Smartphone.findById(req.body.smartphoneId);
-      let response = await Cart.create({
-        userId: user.id,
-        smartphone: smartphone,
-        qty: req.body.qty
-      });
-      return res.status(201).json({
-        response: response,
-        message: "successfully created your cart",
-      });
-    } catch (err) {
-      return res.status(500).json({
-        message: err.message,
-      });
-    }
-  }
-);
-
 router.put(
   "/:id",
   passport.authenticate("jwt", { session: false }),
