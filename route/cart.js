@@ -24,7 +24,7 @@ router.post(
         let response = await cart.save();
         return res.status(201).json({
           response: response,
-          message: "",
+          message: "Succussfully Added to Cart",
         });
       }
       else{
@@ -36,7 +36,7 @@ router.post(
 
         return res.status(201).json({
           response: response,
-          message: "successfully created your cart",
+          message: "Succussfully Added to Cart",
         });
       }
       //let cartItem = cart.find({smartphone:smartphones});
