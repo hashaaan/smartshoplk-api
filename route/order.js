@@ -5,9 +5,10 @@ const router = express.Router();
 const passport = require("passport");
 const validator = require('validator');
 
-router.get("/", async (req, res) => {
+router.get("/", passport.authenticate("jwt", { session: false }),
+ async (req, res) => {
   try {
-    let orders = await Order.find().sort({ name: "asc" });
+    let orders = await Order.find({ userId: req.user.id }).sort({ name: "asc" });
     res.send(orders);
   } catch (e) {
     return res.status(500).send(e.message);
