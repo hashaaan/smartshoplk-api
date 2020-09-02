@@ -16,9 +16,9 @@ router.post(
       if(!req.body.qty){
         res.status(422).json({message:"Quantity is required"});
       }
-      let user = req.user;
-      let smartphones = await Smartphone.findById(req.body.smartphoneId);
-      let cart = await Cart.findOne({ userId: req.user.id ,smartphone: smartphones });   
+      const user = req.user;
+      const smartphones = await Smartphone.findById(req.body.smartphoneId);
+      const cart = await Cart.findOne({ userId: req.user.id ,smartphone: smartphones });   
       if(cart){
         cart.qty = cart.qty + req.body.qty;
         let response = await cart.save();
