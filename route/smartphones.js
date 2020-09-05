@@ -11,4 +11,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    let response = await Smartphone.findById(req.params.id);
+    return res.status(200).json({
+      response: response,
+      message: "success",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
 module.exports = router;

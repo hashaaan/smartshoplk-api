@@ -53,6 +53,7 @@ router.post("/", async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+    console.log("auth user", user);
     if (!user) {
       return res.status(400).json({
         message: "invalid email or password",
@@ -84,7 +85,7 @@ router.post("/google/signin", async (req, res) => {
       let salt = await bcrypt.genSalt(10);
       let password = await bcrypt.hash(generateString(8), salt);
       let user = new User({
-        username: generateString(5),
+        username: req.body.username,
         email: req.body.email,
         password: password,
       });

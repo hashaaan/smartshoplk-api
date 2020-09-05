@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const users = require("./route/users");
 const admin = require("./route/admin")
 const cart = require("./route/cart");
+const { response } = require("express");
+const order = require("./route/order");
 const app = express();
 const PORT = 8000;
 
@@ -24,6 +26,7 @@ app.use("/api/smartphones", smartphones);
 app.use("/api/users", users);
 app.use("/api/admin", admin);
 app.use("/api/cart", cart);
+app.use("/api/order",order);
 
 mongoose
   .connect(

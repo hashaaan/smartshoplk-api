@@ -1,12 +1,13 @@
 const express = require("express");
 const Smartphone = require("../model/smartphone");
+const { findByIdAndRemove } = require("../model/smartphone");
 
 const router = express.Router();
 
 
 
 
-router.get("/",async(req,res)=>{
+router.get("/mobile/",async(req,res)=>{
 
 
     await Smartphone.find({},(err,data)=>{
@@ -16,23 +17,22 @@ router.get("/",async(req,res)=>{
     
 });
 
-router.get("/:id",async(req,res)=>{
-// await Smartphone.findById(req.params.id,(err,data)=>{
-//     res.json(data);
+router.get("/mobile/:mobileId",async(req,res)=>{
+    let mobile = await Smartphone.findById(req.params.mobileId);
 
-    let phone = await Smartphone.findById(req.params.id);
-
-    if (!phone) {
+    if (!mobile) {
       return res
         .sendStatus(404)
         .send("The given Id does not exist on our server");
     }
   
-    res.json(phone)
-})
+    res.send(mobile);
+  });
 
 
-router.post("/", async(req,res)=>{
+
+
+router.post("/mobile/", async(req,res)=>{
 
 try{
     let phone =await  Smartphone({
@@ -46,36 +46,45 @@ try{
         rating: req.body.rating,
         price: req.body.price,
         currency: req.body.currency,
-        imgURL: req.body.imgURL
+        imgUrl: req.body.imgUrl
     
     
     })
      phone.save(()=>{
         res.json(phone)
+        console.log("Phone added")
     })
 }catch(e){
     return res.status(500).send(e.message)
 }
 
 
-console.log("Phone added")
+
    
 });
 
-router.delete("/:id", async(req,res)=>{
-    let phone= await Smartphone.findByIdAndDelete({_id:req.params.id})
-    res.send(phone)
-    console.log("deleted")
+router.delete("/mobile/:mobileId",async (req,res)=>{
+   
+    try {
+        let mbl = await Smartphone.findOneAndDelete({ _id: req.params.mobileId });
 
-    if (!phone) {
-        return res.status(404).send("The given Id does not exist on our server");
-      }
+        if (!mbl) {
+            return res.status(404).send("The given Id does not exist on our server");
+        }
+console.log("deleted")
+       res.send("Mobile deleted");
 
+    } catch(e) {
+        console.log("error",e)
+    }
+
+   
+    
     
 });
 
 
-router.put("/:id", async(req,res)=>{
+router.put("/mobile/:id", async(req,res)=>{
   let phone= await Smartphone.findOneAndUpdate({
         _id: req.params.id
     },
@@ -90,7 +99,7 @@ router.put("/:id", async(req,res)=>{
         rating: req.body.rating,
         price: req.body.price,
         currency: req.body.currency,
-        imgURL: req.body.imgURL
+        imgUrl: req.body.imgUrl
     },
     new: true, useFindAndModify: false}
     )
