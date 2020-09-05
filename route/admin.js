@@ -23,7 +23,7 @@ router.get("/smartphones/:id", async (req, res) => {
 
 router.post("/smartphones", async (req, res) => {
   try {
-    let phone = await Smartphone({
+    let smartphone = new Smartphone({
       name: req.body.name,
       brand: req.body.brand,
       modelNo: req.body.modelNo,
@@ -36,10 +36,8 @@ router.post("/smartphones", async (req, res) => {
       currency: req.body.currency,
       imgUrl: req.body.imgUrl,
     });
-    phone.save(() => {
-      res.json(phone);
-      console.log("Phone added");
-    });
+    smartphone = await smartphone.save();
+    res.send(smartphone);
   } catch (e) {
     return res.status(500).send(e.message);
   }
