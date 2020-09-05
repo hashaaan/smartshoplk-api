@@ -53,6 +53,7 @@ router.post("/", async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
+    console.log("auth user", user);
     if (!user) {
       return res.status(400).json({
         message: "invalid email or password",
@@ -77,6 +78,31 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+router.post("/google/signin", async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      let salt = await bcrypt.genSalt(10);
+      let password = await bcrypt.hash(generateString(8), salt);
+      let user = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: password,
+      });
+      const newUser = await user.save();
+      let token = generateUserToken(user);
+      res.status(201).json({ success: true, token: token });
+    } else {
+      let token = generateUserToken(user);
+      res.status(200).json({ success: true, token: token });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
 router.get("/", passport.authenticate("jwt", { session: false }), function (
   req,
   res
@@ -87,6 +113,17 @@ router.get("/", passport.authenticate("jwt", { session: false }), function (
 generateUserToken = function (user) {
   var token = jwt.sign(user.toJSON(), config.secret);
   return "JWT " + token;
+};
+
+generateString = function (length) {
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 };
 
 module.exports = router;

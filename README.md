@@ -5,7 +5,14 @@
 This repository is to demonstrate the Web API regarding the coursework for Web API Development 19.1
 
 ## Team Members
-* V P H Shalitha
-* M M M Minsaf
-* H E R U Madurapperuma
-* T M Jayalath
+
+- V P H Shalitha
+- M M M Minsaf
+- H E R U Madurapperuma
+- T M Jayalath
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
