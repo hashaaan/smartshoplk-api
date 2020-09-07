@@ -63,6 +63,9 @@ router.post(
 
       const cart = await Cart.find({ userId: req.user.id });
 
+      if(!Array.isArray(cart)||cart.length==0){
+        return res.status(422).json({ message: "No cart Items" });
+      }
       let order = new Order({
         userId: user.id,
         phoneNumber: body.phoneNumber,
@@ -77,6 +80,7 @@ router.post(
       });
 
       let response = await Order.create(order);
+      let cartDel = await Cart.deleteMany({userId:user.id});
 
       res.status(201).json({ response: response, message: "Order created" });
     } catch (e) {
