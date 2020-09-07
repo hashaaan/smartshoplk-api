@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    let smartphones = await Smartphone.find().sort({ name: "asc" });
+    let smartphones = await Smartphone.find().sort({ createdAt: -1 });
     res.send(smartphones);
   } catch (e) {
     return res.status(500).send(e.message);
