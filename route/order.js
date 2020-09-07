@@ -36,7 +36,7 @@ router.post(
       if (!validator.isEmail(body.email)) {
         return res.status(422).json({ message: "Invalid email address" });
       }
-      if (!validator.isInt(body.telephone)) {
+      if (!validator.isInt(body.phoneNumber)) {
         return res.status(422).json({ message: "Invalid phone number" });
       }
       if (!body.total) {
