@@ -72,6 +72,30 @@ router.put(
   }
 );
 
+router.put("/quantity/:id", async (req, res) => {
+  try {
+    if (!req.body.qty) {
+      return res.status(400).json({
+        message: "missing qty parameter",
+      });
+    }
+    let product = await Cart.updateOne(
+      { _id: req.params.id },
+      {
+        qty: req.body.qty,
+      }
+    );
+    return res.status(201).json({
+      response: product,
+      message: "successfully updated your cart",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+});
+
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
