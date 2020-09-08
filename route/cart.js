@@ -132,4 +132,22 @@ router.get(
   }
 );
 
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      let cart = await Cart.findOneAndDelete({ _id: req.params.id });
+      if (!cart) {
+        return res
+          .status(404)
+          .send("The given id does not exist on our server");
+      }
+      res.send(cart);
+    } catch (err) {
+      return res.status(500).send({ message: err.message });
+    }
+  }
+);
+
 module.exports = router;
