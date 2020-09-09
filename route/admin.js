@@ -1,6 +1,5 @@
 const express = require("express");
 const Smartphone = require("../model/smartphone");
-
 const router = express.Router();
 
 router.get("/smartphones", async (req, res) => {
@@ -9,7 +8,7 @@ router.get("/smartphones", async (req, res) => {
   });
 });
 
-router.get("/smartphones/:id", async (req, res) => {
+router.get("/smartphones/:mobileId", async (req, res) => {
   let mobile = await Smartphone.findById(req.params.mobileId);
 
   if (!mobile) {
@@ -43,7 +42,7 @@ router.post("/smartphones", async (req, res) => {
   }
 });
 
-router.delete("/smartphones/:id", async (req, res) => {
+router.delete("/smartphones/:mobileId", async (req, res) => {
   try {
     let mbl = await Smartphone.findOneAndDelete({ _id: req.params.mobileId });
 
@@ -57,10 +56,10 @@ router.delete("/smartphones/:id", async (req, res) => {
   }
 });
 
-router.put("/smartphones/:id", async (req, res) => {
+router.put("/smartphones/:mobileId", async (req, res) => {
   let phone = await Smartphone.findOneAndUpdate(
     {
-      _id: req.params.id,
+      _id: req.params.mobileId,
     },
     {
       $set: {
