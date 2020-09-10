@@ -11,7 +11,7 @@ router.get(
   async (req, res) => {
     try {
       let orders = await Order.find({ userId: req.user.id }).sort({
-        name: "asc",
+        createdAt: -1,
       });
       res.send(orders);
     } catch (e) {
@@ -63,7 +63,7 @@ router.post(
 
       const cart = await Cart.find({ userId: req.user.id });
 
-      if(!Array.isArray(cart)||cart.length==0){
+      if (!Array.isArray(cart) || cart.length == 0) {
         return res.status(422).json({ message: "No cart Items" });
       }
       let order = new Order({
@@ -80,7 +80,7 @@ router.post(
       });
 
       let response = await Order.create(order);
-      let cartDel = await Cart.deleteMany({userId:user.id});
+      let cartDel = await Cart.deleteMany({ userId: user.id });
 
       res.status(201).json({ response: response, message: "Order created" });
     } catch (e) {
